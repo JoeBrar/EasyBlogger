@@ -1,0 +1,168 @@
+main{
+  color:#333;
+  padding: 20px;
+  max-width: 800px;
+  margin:auto;
+  font-family:"Roboto";
+}
+a{
+  cursor:pointer;
+}
+button{
+  cursor:pointer;
+}
+header{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 45px;
+}
+header a{
+  color: inherit;
+  text-decoration: none;
+}
+header a.logo{
+  font-weight: bold;
+  font-size: 23px;
+}
+header nav{
+  display: flex;
+  align-items: center;
+  gap:10px;
+}
+.post{
+  white-space: pre-line;
+  display:flex;
+  gap:15px;
+  margin-bottom: 30px;
+}
+.post img{
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+.post .image{
+  flex:0.85;
+}
+.post .texts{
+  flex:1;
+}
+@media screen and (max-width:480px) {
+  .post{
+    display:block;
+  }
+}
+.texts h2{
+  margin:0;
+}
+.texts p{
+  margin:0;
+}
+.info_div{
+  margin-bottom: 12px;
+  margin-top: 3px;
+}
+.info{
+  display:flex;
+  flex-direction: row;
+  font-size: 13px;
+  gap:13px;
+  font-weight: bold;
+  color:#888;
+}
+p.info a.author{
+  font-size: 13px;
+}
+p.info time{
+  color:#777;
+}
+p.summary{
+  line-height: 21px;
+  margin-bottom: 5px;
+}
+div.form_outer_container{
+  display: flex;
+  flex-direction: column;
+  gap:20px;
+  max-width: 400px;
+  margin:auto;
+}
+.form_title{
+  margin-top: 30px;
+  margin-bottom: 20px;
+  font-size: 30px;
+}
+.form_outer_container form{
+  display:flex;
+  flex-direction: column;
+  gap:8px;
+}
+
+.form_outer_container form input{
+  padding:5px 2px;
+  width: 100%;
+  border-width: 0px;
+  border-bottom-width: 1px ;
+  border-color: grey;
+  outline: none;
+  background-color: #eee;
+}
+
+.btn_container button{
+  width: 100%;
+  font-size: 18px;
+  background-color: blue;
+  color:white;
+  padding:4px 0px;
+  border-radius: 5px;
+  outline: none;
+  border-width: 1px;
+}
+.logout_btn:hover{
+  cursor:pointer;
+}
+.create_post_div input{
+  margin:5px 0px;
+  padding:8px;
+  border-radius: 4px;
+  outline: 0px;
+  border-width: 1px;
+}
+.create_post_div button{
+  padding:7px;
+  font-size: 18px;
+  font-weight: bold;
+  color:white;
+  background-color: green;
+  border-radius: 5px;
+}
+.create_post_div button:hover{
+  background-color: darkgreen;
+}
+.post_title{
+  color:inherit;
+  text-decoration: none;
+}
+.post_content_div img{
+  max-width: 80%;
+  height: auto;
+}
+div.post_content_div{
+  line-height: 22px;
+}
+.post_edit_btn{
+  display: flex;
+  gap:4px;
+  align-items: center;
+  background-color: #3C473A;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+.post_edit_btn svg{
+  width: 18px;
+}
+.post_edit_btn:hover{
+  background-color: #222921;
+  cursor:pointer;
+}
