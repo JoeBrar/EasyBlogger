@@ -10,6 +10,7 @@
 /client/node_modules
 /server/node_modules
 /server/api/.env
+/client/.env
 
 # production
 /build
