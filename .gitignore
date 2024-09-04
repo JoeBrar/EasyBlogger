@@ -8,6 +8,7 @@
 # testing
 /coverage
 /client/node_modules
+/server/node_modules
 /server/api/.env
 
 # production
