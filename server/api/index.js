@@ -53,7 +53,7 @@ app.post('/login', async (req,res)=>{
             //logged in
             jwt.sign({username,id:userDoc._id},jwtSecret,{},(err,jwtToken)=>{
                 if(err) throw err;
-                res.cookie('token',jwtToken).json({username,id:userDoc._id});
+                res.cookie('token',jwtToken, {httpOnly:true, secure:true, sameSite:'None'}).json({username,id:userDoc._id});
             });
         }
         else{
