@@ -145,9 +145,13 @@ app.put('/post/:id', uploadMiddleware.single('file'), async (req,res)=>{
 */
 //new api
 app.post('/createPost', uploadMiddleware.none(), async (req,res)=>{
+    console.log('req body1 - ',req.body);
+    console.log('req cookies1 - ',req.cookies);
+    console.log('token -',req.cookies?.token);
     let {title,content,summary,coverImage}=req.body;
     let token=req.cookies?.token
     if(token){
+        console.log('inside token');
         jwt.verify(token,jwtSecret,{},async (err,data)=>{
             if(err) throw err;
             const postDoc=await Post.create({
@@ -164,9 +168,12 @@ app.post('/createPost', uploadMiddleware.none(), async (req,res)=>{
 })
 
 app.put('/post/:id', uploadMiddleware.none(), async (req,res)=>{
-    console.log('req body - ',req.body);
+    console.log('req body1 - ',req.body);
+    console.log('req cookies1 - ',req.cookies);
+    console.log('token -',req.cookies?.token);
     let token=req.cookies?.token
     if(token){
+        console.log('inside token');
         jwt.verify(token,jwtSecret,{},async (err,info)=>{
             if(err) throw err;
             const {title,content,summary,postId,coverImage}=req.body;
@@ -187,7 +194,7 @@ app.put('/post/:id', uploadMiddleware.none(), async (req,res)=>{
             res.json(postDoc);
         })
     }
-    else res.status(403).json({message:'forbidden'});
+    else res.status(403).json({message:'__forbidden__'});
 })
 
 app.get('/fetchPosts', async (req,res)=>{
