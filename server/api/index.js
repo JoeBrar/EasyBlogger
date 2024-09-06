@@ -5,12 +5,12 @@ const dotenv = require('dotenv');
 dotenv.config();
 const mongoose=require('mongoose');
 const User=require('./models/User');
-const Post=require('./models/Post');
+const Post=require('./models/Post') ;
 const bcrypt = require('bcrypt');
 const jwt=require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const multer=require('multer');
-const uploadMiddleware=multer({dest:'./uploads',limits:{fieldSize:50*1024*1024}});
+const uploadMiddleware=multer();
 const fs=require('fs');
 const { error } = require('console');
 
@@ -20,7 +20,7 @@ console.log('env vars - ',process.env.jwt_secret) ;
 app.use(cors({credentials:true, origin : process.env.cors_origin}));
 app.use(express.json());
 app.use(cookieParser());
-app.use('/uploads', express.static(__dirname+'/uploads'));
+//app.use('/uploads', express.static(__dirname+'/uploads'));
 
 mongoose.connect(process.env.mongodb_connection_string);
 
@@ -79,6 +79,8 @@ app.get('/profile',(req,res)=>{
     res.json("error");
 })
 
+// Old api
+/*
 app.post('/createPost',uploadMiddleware.single('file'),async (req,res)=>{
     let {originalname,path}=req.file ;
     let {title,content,summary}=req.body;
@@ -133,6 +135,53 @@ app.put('/post/:id', uploadMiddleware.single('file'), async (req,res)=>{
             postDoc.content = content;
             postDoc.summary = summary;
             postDoc.cover = coverPath;
+            await postDoc.save(); // Save the modified document in MongoDB database
+            
+            res.json(postDoc);
+        })
+    }
+    else res.status(403).json({message:'forbidden'});
+})
+*/
+//new api
+app.post('/createPost', uploadMiddleware.none(), async (req,res)=>{
+    let {title,content,summary,coverImage}=req.body;
+    let token=req.cookies?.token
+    if(token){
+        jwt.verify(token,jwtSecret,{},async (err,data)=>{
+            if(err) throw err;
+            const postDoc=await Post.create({
+                title:title,
+                summary,
+                content,
+                cover:coverImage,
+                author:data.id
+            })
+            console.log('post doc - ',postDoc);
+            res.json(postDoc);
+        })
+    }
+})
+
+app.put('/post/:id', uploadMiddleware.none(), async (req,res)=>{
+    console.log('req body - ',req.body);
+    let token=req.cookies?.token
+    if(token){
+        jwt.verify(token,jwtSecret,{},async (err,info)=>{
+            if(err) throw err;
+            const {title,content,summary,postId,coverImage}=req.body;
+            const postDoc=await Post.findById(postId);
+            const isAuthor=JSON.stringify(postDoc.author)===JSON.stringify(info.id);
+
+            if(!isAuthor){
+                res.status(403).json('You are not the author');
+                return;
+            }
+
+            postDoc.title = title;
+            postDoc.content = content;
+            postDoc.summary = summary;
+            postDoc.cover = coverImage;
             await postDoc.save(); // Save the modified document in MongoDB database
             
             res.json(postDoc);

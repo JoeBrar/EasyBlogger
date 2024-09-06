@@ -68,10 +68,11 @@ const PostPage = () => {
                 }
                 
                 <div style={{display:'flex',justifyContent:'center', maxHeight:300,overflow:'hidden', marginTop:25}}>
-                    <img src={process.env.REACT_APP_api_url+"/"+postDetails.cover} style={{maxWidth:'95%',objectFit:'cover',objectPosition:'center'}} />
+                    {/* <img src={process.env.REACT_APP_api_url+"/"+postDetails.cover} style={{maxWidth:'95%',objectFit:'cover',objectPosition:'center'}} /> */}
+                    <img src={postDetails.cover} style={{maxWidth:'95%',objectFit:'cover',objectPosition:'center'}} />
                 </div>
                 
-                <div style={{marginTop:30}}>
+                <div style={{marginTop:30, marginBottom:70}}>
                     <div className='post_content_div' dangerouslySetInnerHTML={{__html:postDetails.content}}  />
                 </div>
             </div>

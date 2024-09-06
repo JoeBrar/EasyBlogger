@@ -11,15 +11,23 @@ const CreatePost=()=>{
     const [content, setContent]=useState('');
     const [title, setTitle]=useState('');
     const [summary,setSummary]=useState('');
-    const [files,setFiles]=useState('');
+    const [coverImage,setCoverImage]=useState('');
+
+    function encodeImageFileAsURL(ev) {
+        var file = ev.target.files[0];
+        var reader = new FileReader();
+        reader.onloadend = function() {
+          setCoverImage(reader.result);
+        }
+        reader.readAsDataURL(file);
+    }
 
     const createNewPost=async ()=>{
-        console.log(files[0]);
         let data=new FormData();
         data.set('title',title);
-        data.set('content',content);
+        data.set('content',content) ;
         data.set('summary',summary);
-        data.set('file',files[0]);
+        data.set('coverImage',coverImage);
         let response = await fetch(process.env.REACT_APP_api_url+'/createPost',{
             method:'POST',
             body:data,
@@ -28,7 +36,6 @@ const CreatePost=()=>{
         if(response.ok){
             navigate('/');
         }
-        console.log('response - ',response);
         let result=await response.json();
         console.log('result - ',result);
     }
@@ -40,7 +47,10 @@ const CreatePost=()=>{
             <form style={{flexDirection:'column', display:'flex'}} className="create_post_div">
                 <input type="text" placeholder="Title" value={title} onChange={e=>setTitle(e.target.value)} />
                 <input type="text" placeholder="Summary" value={summary} onChange={(e)=>{setSummary(e.target.value)}}/>
-                <input type="file" onChange={e=>{setFiles(e.target.files)}}/>
+                {/*old version, upload file using multer */}
+                {/* <input type="file" onChange={e=>{setFiles(e.target.files)}}/> */}
+                {/*new version, upload file as base64 string */}
+                <input type="file" onChange={(ev)=>{encodeImageFileAsURL(ev)}} />
                 <Editor value={content} onChange={setContent} />
                 <button type='button' style={{marginTop:'10px'}} onClick={()=>{console.log('clicked11'); createNewPost();}}>Create post</button>
             </form>

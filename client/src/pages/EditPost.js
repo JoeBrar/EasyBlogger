@@ -10,8 +10,7 @@ const EditPost = () => {
     const [content, setContent]=useState('');
     const [title, setTitle]=useState('');
     const [summary,setSummary]=useState('');
-    const [cover,setCover]=useState('');
-    const [files,setFiles]=useState('');
+    const [coverImage,setCoverImage]=useState('');
 
     let modules = {
         toolbar: [
@@ -30,17 +29,26 @@ const EditPost = () => {
         'link', 'image'
     ]
 
+    function encodeImageFileAsURL(ev) {
+        var file = ev.target.files[0];
+        var reader = new FileReader();
+        reader.onloadend = function() {
+          setCoverImage(reader.result);
+        }
+        reader.readAsDataURL(file);
+    }
+
     const updatePost=()=>{
         console.log("here");
         let sendData=new FormData();
         sendData.set('title',title);
         sendData.set('content',content);
         sendData.set('summary',summary);
-        sendData.set('cover',cover);
+        sendData.set('coverImage',coverImage);
         sendData.set('postId',postId);
-        if(files?.[0]){
-            sendData.set('file',files[0]);
-        }
+        // if(files?.[0]){
+        //     sendData.set('file',files[0]);
+        // }
         fetch(process.env.REACT_APP_api_url+'/post/'+postId,{
             method:'PUT',
             body:sendData,
@@ -80,7 +88,7 @@ const EditPost = () => {
                 setTitle(data.title);
                 setSummary(data.summary);
                 setContent(data.content);
-                setCover(data.cover);
+                setCoverImage(data.cover);
             }
         })
         .catch((err)=>console.error('Error is - ',err));
@@ -97,7 +105,8 @@ const EditPost = () => {
                 <form style={{flexDirection:'column', display:'flex'}} className="create_post_div" onSubmit={(ev)=>{ev.preventDefault();}}>
                     <input type="text" placeholder="Title" value={title} onChange={e=>setTitle(e.target.value)} />
                     <input type="text" placeholder="Summary" value={summary} onChange={(e)=>{setSummary(e.target.value)}}/>
-                    <input type="file" onChange={e=>{setFiles(e.target.files)}}/>
+                    {/* <input type="file" onChange={e=>{setFiles(e.target.files)}}/> */}
+                    <input type="file" onChange={(ev)=>{encodeImageFileAsURL(ev)}} />
                     <Editor value={content} onChange={setContent} />
                     <button type='button' style={{marginTop:'10px'}} onClick={()=>{updatePost();}}>Update post</button>
                 </form>

@@ -6,7 +6,8 @@ const Post=({_id,title,cover,content,summary,createdAt,author})=>{
     <div className="post" key={_id}>
         <div className='image'>
             <Link to={`/post/${_id}`}>
-                <img src={process.env.REACT_APP_api_url+`/${cover}`} alt="" style={{height:200}}></img>
+                {/* <img src={process.env.REACT_APP_api_url+`/${cover}`} alt="" style={{height:200}} /> */}
+                <img src={cover} alt="" style={{height:200}} />
             </Link>
         </div>
         <div className="texts">
