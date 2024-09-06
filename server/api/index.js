@@ -6,7 +6,7 @@ dotenv.config();
 const mongoose=require('mongoose');
 const User=require('./models/User');
 const Post=require('./models/Post') ;
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt') ;
 const jwt=require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const multer=require('multer');
