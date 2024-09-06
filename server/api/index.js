@@ -10,7 +10,7 @@ const bcrypt = require('bcrypt') ;
 const jwt=require('jsonwebtoken') ;
 const cookieParser = require('cookie-parser');
 const multer=require('multer');
-const uploadMiddleware=multer();
+const uploadMiddleware=multer({limits:{fieldSize: 25 * 1024 * 1024}});
 const fs=require('fs');
 const { error } = require('console');
 
