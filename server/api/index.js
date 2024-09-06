@@ -17,7 +17,7 @@ const { error } = require('console');
 const jwtSecret=process.env.jwt_secret;
 console.log('env vars - ',process.env.jwt_secret) ;
 
-app.use(cors({credentials:true, origin : process.env.cors_origin}));
+app.use(cors({credentials:true, origin : process.env.cors_origin, methods:["POST", "GET", "PUT"]}));
 app.use(express.json());
 app.use(cookieParser());
 //app.use('/uploads', express.static(__dirname+'/uploads'));
